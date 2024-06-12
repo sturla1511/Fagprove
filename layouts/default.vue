@@ -10,24 +10,17 @@
   </div>
 </template>
 
-<style lang="scss">
-  body {
-    margin: 0;
-    background-color: #ECF0F4;
-  }
-</style>
-
 <style scoped lang="scss">
 .default-layout {
   display: flex;
   justify-content: center;
-  background-color: #ECF0F4;
+  background-color: $gray-200;
   width: 100%;
   height: 100%;
   main {
-    background-color: white;
+    background-color: $white;
     width: 100%;
-    max-width: 1200px;
+    max-width: $max-width;
     min-height: calc(100vh - 32px);
     padding: 16px;
     border-radius: 0;
@@ -35,7 +28,7 @@
   }
 }
 
-@media (min-width: 560px) {
+@media (min-width: $breakpoint-sm) {
   .default-layout {
     main {
       padding: 22px;
@@ -46,12 +39,9 @@
   }
 }
 
-@media (min-width: 770px) {
+@media (min-width:  $breakpoint-md) {
   .default-layout {
     main {
-      background-color: white;
-      width: 100%;
-      max-width: 1200px;
       margin: 32px;
       min-height: calc(100vh - 108px);
     }
