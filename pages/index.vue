@@ -4,10 +4,10 @@
 
 <template>
   <div>
-    test
+    <h1>Assets</h1>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
