@@ -16,5 +16,8 @@
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.14.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "pinia": "^2.1.7",
+    "@pinia/nuxt": "^0.5.1"
+  }
 }
