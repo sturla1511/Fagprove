@@ -26,6 +26,9 @@ const employeeName = await inventory.getEmployeeName(props.employee)
     <span class="serial-number">{{ serialNumber }}</span>
     <div class="card-footer">
       <span>{{ employeeName }}</span>
+      <button>
+        <img class="edit" src="/icon/pencil.svg" alt="edit asset">
+      </button>
     </div>
   </div>
 </template>
@@ -41,6 +44,7 @@ const employeeName = await inventory.getEmployeeName(props.employee)
   box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 6px;
   height: calc(100% - 16px);
+  max-width: 600px;
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -74,6 +78,25 @@ const employeeName = await inventory.getEmployeeName(props.employee)
     display: flex;
     padding-top: 6px;
     margin-top: auto;
+    justify-content: space-between;
+    span {
+      margin-top: auto;
+    }
+    button {
+      cursor: pointer;
+      padding: 0;
+      border: 0;
+      background-color: transparent;
+      .edit {
+        width: 20px;
+        height: 22px;
+      }
+      &:hover {
+        .edit {
+          width: 22px;
+        }
+      }
+    }
   }
 }
 </style>

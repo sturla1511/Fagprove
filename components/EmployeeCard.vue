@@ -94,11 +94,12 @@ await getAssets()
   }
   .card-header {
     display: flex;
-    justify-content: space-between;
+    gap: 6px;
     h2 {
       margin: 0;
     }
     .type {
+      margin-left: auto;
       background-color: $blue-500;
       height: fit-content;
       padding: 3px 5px;

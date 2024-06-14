@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 interface State {
     Assets: Array<Asset>;
     Employees: Array<Employee>;
+    listTypeTable: boolean
 }
 
 interface Asset {
@@ -53,7 +54,7 @@ const mockEmployees: Array<Employee> = [
 ];
 
 export const useInventoryStore = defineStore("Inventory", {
-    state: (): State => ({ Assets: mockAssets, Employees: mockEmployees }),
+    state: (): State => ({ Assets: mockAssets, Employees: mockEmployees, listTypeTable: true }),
     actions: {
         async getAssets(): Promise<Array<Asset>> {
             return this.Assets;

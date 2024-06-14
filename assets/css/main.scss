@@ -4,3 +4,32 @@ body {
   margin: 0;
   background-color: $gray-200;
 }
+
+.container {
+  .heading-and-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: $gray-100;
+      border: 1px solid $gray-200;
+      box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      margin: 0;
+      padding: 4px;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      &:hover {
+        background: $gray-300;
+      }
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
