@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue"
 import { useInventoryStore } from "~/stores/inventory.ts"
+import CardList from "~/components/CardList.vue";
 
 const inventory = useInventoryStore()
 
@@ -12,11 +13,7 @@ const route = useRoute()
 <template>
   <div>
     <h1>Assets</h1>
-    <ul>
-      <li v-for="(asset, index) in assets" :key="index">
-        {{ asset.name }}
-      </li>
-    </ul>
+    <CardList :list="assets"/>
   </div>
 </template>
 

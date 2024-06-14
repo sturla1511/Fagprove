@@ -1,5 +1,5 @@
 <script setup>
-const assetTypes = ["PC", "Mac", "Mobile", "Mouse", "Keyboard", "Headset" ]
+import { types } from "~/utils/types.ts";
 </script>
 
 <template>
@@ -13,7 +13,7 @@ const assetTypes = ["PC", "Mac", "Mobile", "Mouse", "Keyboard", "Headset" ]
               Assets
             </nuxt-link>
             <ul>
-              <li v-for="(type, index) in assetTypes" :key="index">
+              <li v-for="(type, index) in types" :key="index">
                 <nuxt-link :to="'/assets/'+type?.toLowerCase()">
                   {{ type }}
                 </nuxt-link>
@@ -91,7 +91,7 @@ const assetTypes = ["PC", "Mac", "Mobile", "Mouse", "Keyboard", "Headset" ]
           text-decoration-line: underline;
         }
         &.router-link-active, &.router-link-exact-active {
-          color: #79F1F8;
+          color: $blue-500;
         }
       }
     }

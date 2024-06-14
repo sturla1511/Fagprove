@@ -12,11 +12,7 @@ const route = useRoute()
 <template>
   <div>
     <h1>Employees</h1>
-    <ul>
-      <li v-for="(employee, index) in employees" :key="index">
-        {{ employee.name }}
-      </li>
-    </ul>
+    <CardList :list="employees"/>
   </div>
 </template>
 
