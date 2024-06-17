@@ -5,6 +5,14 @@ export default defineNuxtConfig({
       config:{
         networking: {
           allowedIpRanges: ["AzureFrontDoor.Backend"]
+        } ,
+        forwardingGateway: {
+          requiredHeaders: {
+            "X-Azure-FDID" : "645f2b63-8488-4ff1-9d76-98d2f3894b89"
+          },
+          allowedForwardedHosts: [
+            "ep-inventory-fwa5b2f8akfxgmfa.a01.azurefd.net"
+          ]
         }
       }
     }
