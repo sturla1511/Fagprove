@@ -1,5 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  nitro:{
+    azure:{
+      config:{
+        networking: {
+          allowedIpRanges: ["AzureFrontDoor.Backend"]
+        }
+      }
+    }
+  },
   devtools: { enabled: true },
   css: ['~/assets/css/main.scss'],
   vite: {
