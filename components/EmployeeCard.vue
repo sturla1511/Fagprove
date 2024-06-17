@@ -6,6 +6,7 @@ import { ref } from "vue"
 const inventory = useInventoryStore()
 
 const props = defineProps({
+  id: String,
   name: String,
   assets: Array
 });
@@ -24,7 +25,7 @@ await getAssets()
 </script>
 
 <template>
-  <nuxt-link class="card-container" :to="'/employees/'+name">
+  <nuxt-link class="card-container" :to="{ path: '/assets', query: { employee: id } }">
     <div class="card-header">
       <h2>{{ name }}</h2>
       <div class="type">

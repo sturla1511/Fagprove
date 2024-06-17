@@ -1,5 +1,7 @@
 <script setup>
 import { types } from "~/utils/types.ts";
+
+const route = useRoute()
 </script>
 
 <template>
@@ -9,19 +11,19 @@ import { types } from "~/utils/types.ts";
       <nav>
         <ul>
           <li>
-            <nuxt-link to="/assets">
+            <nuxt-link :class="{'link-active': route.path === '/assets' && route.query.type === undefined}" to="/assets">
               Assets
             </nuxt-link>
             <ul>
               <li v-for="(type, index) in types" :key="index">
-                <nuxt-link :to="'/assets/'+type?.toLowerCase()">
+                <nuxt-link :class="{'link-active': route.query.type === type}" :to="{ path: '/assets', query: { type: type } }">
                   {{ type }}
                 </nuxt-link>
               </li>
             </ul>
           </li>
           <li>
-            <nuxt-link to="/employees">
+            <nuxt-link :class="{'link-active': route.path === '/employees'}" to="/employees">
               Employees
             </nuxt-link>
           </li>
@@ -90,7 +92,7 @@ import { types } from "~/utils/types.ts";
         &:hover {
           text-decoration-line: underline;
         }
-        &.router-link-active, &.router-link-exact-active {
+        &.link-active {
           color: $blue-500;
         }
       }

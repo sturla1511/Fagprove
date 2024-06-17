@@ -11,6 +11,7 @@ interface Asset {
     name: string;
     serialNumber: string;
     type: string;
+    date: string;
     employee: string;
 }
 interface Employee {
@@ -21,27 +22,27 @@ interface Employee {
 
 // chatGpt generated mock data
 const mockAssets: Array<Asset> = [
-    { id: "1", name: "Dell Laptop", serialNumber: "DL12345", type: "PC", employee: "1" },
-    { id: "2", name: "iPhone 12", serialNumber: "IP12001", type: "Mobile", employee: "1" },
-    { id: "3", name: "Logitech Mouse", serialNumber: "LM34567", type: "Mouse", employee: "1" },
-    { id: "4", name: "Sony Headset", serialNumber: "SH56789", type: "Headset", employee: "1" },
-
-    { id: "5", name: "MacBook Pro", serialNumber: "MBP67890", type: "Mac", employee: "2" },
-    { id: "6", name: "Samsung Galaxy S21", serialNumber: "SGS21002", type: "Mobile", employee: "2" },
-    { id: "7", name: "Mechanical Keyboard", serialNumber: "MK90876", type: "Keyboard", employee: "2" },
-
-    { id: "8", name: "HP Laptop", serialNumber: "HP34567", type: "PC", employee: "3" },
-    { id: "9", name: "Google Pixel 5", serialNumber: "GP56789", type: "Mobile", employee: "3" },
-    { id: "10", name: "Wireless Mouse", serialNumber: "WM12345", type: "Mouse", employee: "3" },
-
-    { id: "11", name: "Lenovo ThinkPad", serialNumber: "LT89012", type: "PC", employee: "4" },
-    { id: "12", name: "iPhone 11", serialNumber: "IP11003", type: "Mobile", employee: "4" },
-    { id: "13", name: "Razer Headset", serialNumber: "RH89012", type: "Headset", employee: "4" },
-
-    { id: "14", name: "Microsoft Surface", serialNumber: "MS23456", type: "PC", employee: "5" },
-    { id: "15", name: "Samsung Galaxy Note 20", serialNumber: "SGN20004", type: "Mobile", employee: "5" },
-    { id: "16", name: "Bluetooth Keyboard", serialNumber: "BK67890", type: "Keyboard", employee: "5" },
-    { id: "17", name: "Gaming Mouse", serialNumber: "GM34567", type: "Mouse", employee: "5" },
+    { id: "1", name: "Dell Laptop", serialNumber: "DL12345", type: "PC", date: "2021-12-22" , employee: "1" },
+    { id: "2", name: "iPhone 12", serialNumber: "IP12001", type: "Mobile", date: "2022-01-15", employee: "1" },
+    { id: "3", name: "Logitech Mouse", serialNumber: "LM34567", type: "Mouse", date: "2022-05-10", employee: "1" },
+    { id: "4", name: "Sony Headset", serialNumber: "SH56789", type: "Headset", date: "2021-11-08", employee: "1" },
+    
+    { id: "5", name: "MacBook Pro", serialNumber: "MBP67890", type: "Mac", date: "2021-10-28", employee: "2" },
+    { id: "6", name: "Samsung Galaxy S21", serialNumber: "SGS21002", type: "Mobile", date: "2021-09-30", employee: "2" },
+    { id: "7", name: "Mechanical Keyboard", serialNumber: "MK90876", type: "Keyboard", date: "2022-07-19", employee: "2" },
+    
+    { id: "8", name: "HP Laptop", serialNumber: "HP34567", type: "PC", date: "2021-06-23", employee: "3" },
+    { id: "9", name: "Google Pixel 5", serialNumber: "GP56789", type: "Mobile", date: "2021-04-15", employee: "3" },
+    { id: "10", name: "Wireless Mouse", serialNumber: "WM12345", type: "Mouse", date: "2021-08-17", employee: "3" },
+    
+    { id: "11", name: "Lenovo ThinkPad", serialNumber: "LT89012", type: "PC", date: "2022-02-20", employee: "4" },
+    { id: "12", name: "iPhone 11", serialNumber: "IP11003", type: "Mobile", date: "2021-05-18", employee: "4" },
+    { id: "13", name: "Razer Headset", serialNumber: "RH89012", type: "Headset", date: "2022-03-14" , employee: "4" },
+    
+    { id: "14", name: "Microsoft Surface", serialNumber: "MS23456", type: "PC", date: "2022-04-04", employee: "5" },
+    { id: "15", name: "Samsung Galaxy Note 20", serialNumber: "SGN20004", type: "Mobile", date: "2022-09-25", employee: "5" },
+    { id: "16", name: "Bluetooth Keyboard", serialNumber: "BK67890", type: "Keyboard", date: "2021-03-12", employee: "5" },
+    { id: "17", name: "Gaming Mouse", serialNumber: "GM34567", type: "Mouse", date:  "2022-08-05", employee: "5" },
 ];
 
 // chatGpt generated mock data
@@ -53,8 +54,13 @@ const mockEmployees: Array<Employee> = [
     { id: "5", name: "Eve", assets: ["14", "15", "16", "17"] },
 ];
 
+// @ts-ignore
 export const useInventoryStore = defineStore("Inventory", {
-    state: (): State => ({ Assets: mockAssets, Employees: mockEmployees, listTypeTable: true }),
+    state: (): State => ({ 
+        Assets: mockAssets, 
+        Employees: mockEmployees, 
+        listTypeTable: true
+    }),
     actions: {
         async getAssets(): Promise<Array<Asset>> {
             return this.Assets;
@@ -182,4 +188,9 @@ export const useInventoryStore = defineStore("Inventory", {
             }*/
         },
     },
+    persist: {
+        storage: persistedState.cookiesWithOptions({
+            sameSite: 'strict',
+        }),
+    }
 });

@@ -9,10 +9,24 @@ export default defineNuxtConfig({
           additionalData: '@import "./assets/css/variables.scss";',
         },
       },
-    }
+    },
+    server: {
+      fs: {
+        strict: false
+      },
+    },
   },
-  modules: ["@pinia/nuxt"],
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+  ],
   pinia: {
     autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
+  },
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict',
+    },
+    storage: 'localStorage'
   },
 })

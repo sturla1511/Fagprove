@@ -18,11 +18,12 @@ body {
       border: 1px solid $gray-200;
       box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
-      margin: 0;
       padding: 4px;
       width: 28px;
       height: 28px;
       cursor: pointer;
+      margin: auto 0 0;
+
       &:hover {
         background: $gray-300;
       }
@@ -30,6 +31,68 @@ body {
         width: 18px;
         height: 18px;
       }
+    }
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.filter {
+  display: flex;
+  gap: 10px;
+  fieldset {
+    display: flex;
+    border: 0;
+    padding: 0;
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $gray-100;
+      border: 1px solid $gray-200;
+      box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.1);
+      padding: 0 6px;
+      cursor: pointer;
+      min-width: 28px;
+      margin-top: auto;
+      height: 27px;
+      &.radio-selected {
+        background: darken($gray-100, 2%);
+        border: 1px solid $gray-200;
+        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+        font-weight: bold;
+      }
+      &:hover {
+        background: darken($gray-100, 2%);
+        font-weight: bold;
+      }
+    }
+    label:first-of-type {
+      border-radius: 6px 0 0 6px;
+    }
+    label:last-of-type {
+      border-radius: 0 6px 6px 0;
+    }
+  }
+  label {
+    display: flex;
+    flex-flow: column;
+    select {
+      background: $gray-100;
+      border: 1px solid $gray-200;
+      box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      padding: 4px;
+      height: 28px;
     }
   }
 }

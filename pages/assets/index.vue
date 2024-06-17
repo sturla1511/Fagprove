@@ -1,28 +1,47 @@
 <script setup>
-import { ref } from "vue"
+import {ref, watch} from "vue"
 import { useInventoryStore } from "~/stores/inventory.ts"
 import CardList from "~/components/CardList.vue";
 
 const inventory = useInventoryStore()
+const route = useRoute()
 
 let assets = ref(await inventory.getAssets())
+let employee = ref('')
 
-const route = useRoute()
+let filteredAssets = ref(
+    assets.value.filter((item) => {
+      return (item.type === route.query.type || route.query.type === undefined) && (item.employee === route?.query?.employee?.toString() || route.query.employee === undefined)
+    }).sort((a, b) => new Date(b.date) - new Date(a.date))
+)
+function filterList(value) {
+  filteredAssets.value = value
+}
+
+async function employeeName() {
+  employee.value = await inventory.getEmployeeName(route?.query?.employee)
+}
+employeeName()
+
+watch(
+    () => route.query,
+    () => {
+      employeeName()
+    },
+)
 </script>
 
 <template>
   <div class="container">
     <div class="heading-and-filter">
-      <h1>Assets</h1>
-      <button @click="inventory.listTypeTable = !inventory.listTypeTable">
-        <img 
-          :src="inventory.listTypeTable ? '/icon/grid.svg' : '/icon/table.svg'" 
-          :alt="'switch to '+ inventory.listTypeTable ? 'grid list' : 'table'"
-        >
-      </button>
+      <h1 :key="employee+route?.query?.type">
+        <span v-if="employee">{{ employee }}</span>
+        {{ route?.query?.type ? route?.query?.type : 'Assets' }}
+      </h1>
+      <AssetFilter @filter-list="filterList" />
     </div>
-    <AssetTable v-if="inventory.listTypeTable" :list="assets"/>
-    <CardList v-else :list="assets"/>
+    <AssetTable v-if="inventory.listTypeTable" :list="filteredAssets" :key="filteredAssets" />
+    <CardList v-else :list="filteredAssets" :key="filteredAssets" />
   </div>
 </template>
 

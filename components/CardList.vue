@@ -9,6 +9,7 @@ const props = defineProps({
     <li v-for="(item, index) in list" :key="index">
       <AssetCard
         v-if="item.type"
+        :id="item.id"
         :name="item.name"
         :serial-number="item.serialNumber"
         :type="item.type"
@@ -16,6 +17,7 @@ const props = defineProps({
       />
       <EmployeeCard
         v-else-if="item.assets"
+        :id="item.id"
         :name="item.name"
         :assets="item.assets"
       />

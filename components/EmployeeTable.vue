@@ -52,7 +52,7 @@ await addAssets()
           </div>
         </td>
         <td class="link-column">
-          <nuxt-link :to="'/employees/'+item?.name">
+          <nuxt-link :to="{ path: '/assets', query: { employee: item?.id } }">
             See assets
           </nuxt-link>
         </td>
