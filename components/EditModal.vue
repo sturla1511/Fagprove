@@ -9,7 +9,6 @@ const props = defineProps({
   edit: String,
   form: Object
 });
-const emit = defineEmits(['updated-item']);
 
 let isModalOpen = ref(false);
 
@@ -34,8 +33,11 @@ function saveChanges() {
     errorMessage.value = "Failed to update " + props?.edit;
   } else {
     isModalOpen.value = false
-    emit('updated-item', editedForm.value)
   }
+}
+
+function deletedItem() {
+  isModalOpen.value = false
 }
 </script>
 
@@ -57,7 +59,7 @@ function saveChanges() {
       />
     </template>
     <template #footer>
-      <DeleteModal :edit="edit" :form="form" />
+      <DeleteModal :edit="edit" :form="form" @deleted-item="deletedItem" />
       <button class="button-gradiant" @click="saveChanges">
         Save
       </button>

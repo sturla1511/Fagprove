@@ -29,7 +29,8 @@ let filteredEmployees = ref(
     }).sort((a, b) => b?.assets?.length - a?.assets?.length)
 )
 
-function filterList(value) {
+async function filterList(value) {
+  await addAssetType()
   filteredEmployees.value = value
 }
 </script>
@@ -37,7 +38,10 @@ function filterList(value) {
 <template>
   <div class="container">
     <div class="heading-and-filter">
-      <h1>Employees</h1>
+      <div class="heading-and-add">
+        <h1>Employees</h1>
+        <AddModal edit="employee" />
+      </div>
       <EmployeeFilter :list="employees" @filter-list="filterList" />
     </div>
     <EmployeeTable v-if="inventory.listTypeTable" :list="filteredEmployees" :key="filteredEmployees"/>

@@ -29,15 +29,19 @@ watch(
     employeeName()
   },
 )
+
 </script>
 
 <template>
   <div class="container">
     <div class="heading-and-filter">
-      <h1>
-        <span v-if="employee">{{ employee }}</span>
-        {{ route?.query?.type ? route?.query?.type : 'Assets' }}
-      </h1>
+      <div class="heading-and-add">
+        <h1>
+          <span v-if="employee">{{ employee }}</span>
+          {{ route?.query?.type ? route?.query?.type : 'Assets' }}
+        </h1>
+        <AddModal edit="asset"/>
+      </div>
       <AssetFilter @filter-list="filterList" />
     </div>
     <AssetTable v-if="inventory.listTypeTable" :list="filteredAssets" :key="filteredAssets" />

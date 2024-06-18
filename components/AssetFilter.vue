@@ -92,13 +92,25 @@ watch(
     filter()
   },
 )
+watch(
+    () => inventory.Assets,
+    (newAssets) => {
+      list.value = newAssets;
+      filter()
+    },
+    { deep: true }
+);
 </script>
 
 
 <template>
   <div class="filter">
+    <label for="search" class="sr-only">
+      search
+    </label>
     <input @input="search" type="search" :value="route.query.search" placeholder="Search">
     <fieldset @input="changeDateSort">
+      <legend>Sort by date</legend>
       <label for="old" :class="{'radio-selected': sortByDate === 'old'}">
         old
         <input class="sr-only" type="radio" id="old" name="date" value="old" />

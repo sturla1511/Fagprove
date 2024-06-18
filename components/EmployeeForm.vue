@@ -19,7 +19,6 @@ let editForm = ref({
 
 function updateValue(event) {
   editForm.value[event?.target?.id] = event?.target?.value
-  console.log(editForm.value)
   emit('updated-form', editForm.value)
 }
 </script>

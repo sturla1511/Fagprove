@@ -11,12 +11,6 @@ const props = defineProps({
   assets: Array
 });
 
-let card = ref({
-  id: props.id,
-  name: props.name,
-  assets: props.assets
-})
-
 let assets = ref([])
 async function getAssets() {
   assets.value = []
@@ -28,16 +22,12 @@ async function getAssets() {
 }
 
 await getAssets()
-
-async function updatedItem(event) {
-  card.value = event
-}
 </script>
 
 <template>
   <nuxt-link class="card-container" :to="{ path: '/assets', query: { employee: id } }">
     <div class="card-header">
-      <h2>{{ card?.name }}</h2>
+      <h2>{{ name }}</h2>
       <div class="type">
         {{ assets?.length }} assets
       </div>

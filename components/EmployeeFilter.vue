@@ -9,6 +9,8 @@ const props = defineProps({
   list: Array,
 });
 
+let employeeList = ref(props.list)
+
 const emit = defineEmits(["filter-list"]);
 
 const router = useRouter()
@@ -20,9 +22,9 @@ let filteredList = ref(props.list)
 
 function filter() {
   if (sortByNumberOfAssets.value === 'low') {
-    filteredList.value = props.list.sort((a, b) => a?.assets?.length - b?.assets?.length);
+    filteredList.value = employeeList.value.sort((a, b) => a?.assets?.length - b?.assets?.length);
   } else {
-    filteredList.value = props.list.sort((a, b) => b?.assets?.length - a?.assets?.length);
+    filteredList.value = employeeList.value.sort((a, b) => b?.assets?.length - a?.assets?.length);
   }
   
   filteredList.value = filteredList.value.filter((item) => {
@@ -68,13 +70,27 @@ watch(
     filter()
   },
 )
+
+watch(
+    () => inventory.Employees,
+    (newEmployees) => {
+      employeeList.value = newEmployees;
+      filter()
+    },
+    { deep: true }
+);
 </script>
 
 
 <template>
   <div class="filter">
+    <label for="search" class="sr-only">
+      search
+    </label>
     <input
       @input="search" 
+      id="search"
+      name="search"
       type="search" 
       :value="route.query.search" 
       placeholder="Search"

@@ -57,11 +57,13 @@ const mockEmployees: Array<Employee> = [
 
 // @ts-ignore
 export const useInventoryStore = defineStore("Inventory", {
-    state: (): State => ({ 
-        Assets: mockAssets, 
-        Employees: mockEmployees, 
-        listTypeTable: true
-    }),
+    state: (): State => { 
+        return {
+            Assets: mockAssets,
+            Employees: mockEmployees,
+            listTypeTable: true
+        }
+    },
     actions: {
         async getAssets(): Promise<Array<Asset>> {
             return this.Assets;
@@ -112,10 +114,10 @@ export const useInventoryStore = defineStore("Inventory", {
                 if (employeeIndex !== -1) {
                     const employeeAssetIndex = this.Employees[employeeIndex].assets.findIndex((asset: string) => asset === id);
                     if (employeeAssetIndex !== -1) {
-                        this.Employees[employeeIndex].assets.slice(employeeAssetIndex, 1)
+                        this.Employees[employeeIndex].assets.splice(employeeAssetIndex, 1)
                     }
                 }
-                this.Assets.slice(index, 1);
+                this.Assets.splice(index, 1);
             }
             /*else {
                 try {
@@ -137,6 +139,19 @@ export const useInventoryStore = defineStore("Inventory", {
         async updateAsset(asset: Asset) {
             const index = this.Assets.findIndex((a: Asset) => a.id === asset.id);
             if (index !== -1) {
+                if (asset.employee !== this.Assets[index].employee) {
+                    const oldEmployeeIndex = this.Employees.findIndex((employee: Employee) => employee.id === this.Assets[index]?.employee);
+                    if (oldEmployeeIndex !== -1) {
+                        const employeeAssetIndex = this.Employees[oldEmployeeIndex].assets.findIndex((assetId: string) => assetId === asset.id);
+                        if (employeeAssetIndex !== -1) {
+                            this.Employees[oldEmployeeIndex].assets.splice(employeeAssetIndex, 1)
+                        }
+                    }
+                    const newEmployeeIndex = this.Employees.findIndex((employee: Employee) => employee.id === asset?.employee);
+                    if (newEmployeeIndex !== -1) {
+                        this.Employees[newEmployeeIndex]?.assets?.push(asset?.id)
+                    }
+                }
                 this.Assets[index] = asset
             }
             /*try {
@@ -156,6 +171,33 @@ export const useInventoryStore = defineStore("Inventory", {
                 return result?.data?.value;
             } catch (error) {
                 console.error("Failed to update asset:", error);
+                throw error;
+            }*/
+        },
+        async addAsset(asset: Asset) {
+            const newId = (parseInt(this.Assets.sort((a: Asset, b: Asset) => parseInt(a.id) - parseInt(b.id))[this.Assets.length - 1]?.id || '0') + 1).toString();
+            this.Assets.push({
+                ...asset,
+                id: newId,
+                date: new Date().toISOString().split('T')[0],
+            });
+            /*try {
+                const result = await useFetch(
+                    `/api/assets`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(asset),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    },
+                );
+                if (result?.status?.value === "error") {
+                    return result;
+                }
+                return result?.data?.value;
+            } catch (error) {
+                console.error("Failed to add asset:", error);
                 throw error;
             }*/
         },
@@ -185,7 +227,7 @@ export const useInventoryStore = defineStore("Inventory", {
                     let asset = await this.getAsset(this.Employees[index].assets[i])
                     await this.updateAsset({...asset, employee: "0"})
                 }
-                this.Employees.slice(index, 1);
+                this.Employees.splice(index, 1);
             }
             /*else {
                 try {
@@ -211,6 +253,33 @@ export const useInventoryStore = defineStore("Inventory", {
             const index = this.Employees.findIndex((e: Employee) => e.id === id);
             return this.Employees[index]?.name;
         },
+        async addEmployee(employee: Employee) {
+            const newId = (parseInt(this.Employees.sort((a: Employee, b: Employee) => parseInt(a.id) - parseInt(b.id))[this.Employees.length - 1]?.id || '0') + 1).toString();
+            this.Employees.push({
+                ...employee,
+                id: newId,
+                assets: [],
+            });
+            /*try {
+                const result = await useFetch(
+                    `/api/employee`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(employee),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    },
+                );
+                if (result?.status?.value === "error") {
+                    return result;
+                }
+                return result?.data?.value;
+            } catch (error) {
+                console.error("Failed to add employee:", error);
+                throw error;
+            }*/
+        },
         async updateEmployeesName(employee: Employee) {
             const index = this.Employees.findIndex((e: Employee) => e.id === employee.id);
             if (index !== -1) {
@@ -228,7 +297,7 @@ export const useInventoryStore = defineStore("Inventory", {
                     },
                 );
                 if (result?.status?.value === "error") {
-                    return result;
+                    return result; 
                 }
                 return result?.data?.value;
             } catch (error) {
@@ -238,8 +307,7 @@ export const useInventoryStore = defineStore("Inventory", {
         },
     },
     persist: {
-        storage: persistedState.cookiesWithOptions({
-            sameSite: 'strict',
-        }),
-    }
+        paths: ['Assets', 'Employees', 'listTypeTable'],
+        storage: window.localStorage,
+    },
 });

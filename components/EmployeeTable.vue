@@ -24,10 +24,6 @@ async function addAssets() {
 }
 
 await addAssets()
-
-async function updatedItem(event, id) {
-  employeeList.value[id] = event
-}
 </script>
 
 <template>
@@ -64,7 +60,6 @@ async function updatedItem(event, id) {
           <EditModal
             edit="employee"
             :form="employeeList[rowIndex]"
-            @updated-item="updatedItem($event, rowIndex)"
           />
         </td>
       </tr>

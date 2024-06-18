@@ -14,38 +14,30 @@ const props = defineProps({
   employee: String
 });
 
-let card = ref({
-  id: props.id,
-  name: props.name,
-  serialNumber: props.serialNumber,
-  type: props.type,
-  employee: props.employee
-})
-
-async function updatedItem(event) {
-  card.value = event
-  employeeName.value = await inventory.getEmployeeName(card.value.employee)
-}
-
-let employeeName = ref(await inventory.getEmployeeName(card.value.employee))
+let employeeName = ref(await inventory.getEmployeeName(props.employee))
 </script>
 
 <template>
   <div class="card-container">
     <div class="card-header">
-      <div class="icon" :style="'background-color: ' + typeColor(card.type)">
-        <img :src="typeIcon(card.type)">
+      <div class="icon" :style="'background-color: ' + typeColor(type)">
+        <img :src="typeIcon(type)">
       </div>
-      <div class="type" :style="'background-color: ' + typeColor(card.type)">{{ card.type }}</div>
+      <div class="type" :style="'background-color: ' + typeColor(type)">{{ type }}</div>
     </div>
-    <h2>{{ card.name }}</h2>
-    <span class="serial-number">{{ card.serialNumber }}</span>
+    <h2>{{ name }}</h2>
+    <span class="serial-number">{{ serialNumber }}</span>
     <div class="card-footer">
       <span>{{ employeeName }}</span>
       <EditModal
         edit="asset"
-        :form="card"
-        @updated-item="updatedItem"
+        :form="{
+          id: id,
+          name: name,
+          serialNumber: serialNumber,
+          type: type,
+          employee: employee
+        }"
       />
     </div>
   </div>

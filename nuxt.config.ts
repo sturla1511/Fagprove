@@ -18,6 +18,20 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
+  ssr: false,
+  app: {
+    head: {
+      title: 'GPS Inventory',
+      chartset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      htmlAttrs: {
+        lang: 'nb'
+      },
+      meta: [
+        { name: 'description', content: 'Inventory for glasspaper solutions' }
+      ]
+    }
+  },
   css: ['~/assets/css/main.scss'],
   vite: {
     css: {
