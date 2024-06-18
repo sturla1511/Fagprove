@@ -24,6 +24,10 @@ async function addAssets() {
 }
 
 await addAssets()
+
+async function updatedItem(event, id) {
+  employeeList.value[id] = event
+}
 </script>
 
 <template>
@@ -57,9 +61,11 @@ await addAssets()
           </nuxt-link>
         </td>
         <td class="edit-column">
-          <button>
-            <img class="edit" src="/icon/pencil.svg" alt="edit asset">
-          </button>
+          <EditModal
+            edit="employee"
+            :form="employeeList[rowIndex]"
+            @updated-item="updatedItem($event, rowIndex)"
+          />
         </td>
       </tr>
       <tr v-if="employeeList.length === 0" :class="'row-odd'">

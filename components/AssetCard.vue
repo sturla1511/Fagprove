@@ -1,34 +1,52 @@
 <script setup>
+import { ref } from "vue"
 import { typeIcon, typeColor } from "~/utils/types.ts";
 import { useInventoryStore } from "~/stores/inventory.ts"
+import EditModal from "~/components/EditModal.vue";
 
 const inventory = useInventoryStore()
 
 const props = defineProps({
+  id: String,
   name: String,
   serialNumber: String,
   type: String,
   employee: String
 });
 
-const employeeName = await inventory.getEmployeeName(props.employee)
+let card = ref({
+  id: props.id,
+  name: props.name,
+  serialNumber: props.serialNumber,
+  type: props.type,
+  employee: props.employee
+})
+
+async function updatedItem(event) {
+  card.value = event
+  employeeName.value = await inventory.getEmployeeName(card.value.employee)
+}
+
+let employeeName = ref(await inventory.getEmployeeName(card.value.employee))
 </script>
 
 <template>
   <div class="card-container">
     <div class="card-header">
-      <div class="icon" :style="'background-color: ' + typeColor(type)">
-        <img :src="typeIcon(type)">
+      <div class="icon" :style="'background-color: ' + typeColor(card.type)">
+        <img :src="typeIcon(card.type)">
       </div>
-      <div class="type" :style="'background-color: ' + typeColor(type)">{{ type }}</div>
+      <div class="type" :style="'background-color: ' + typeColor(card.type)">{{ card.type }}</div>
     </div>
-    <h2>{{ name }}</h2>
-    <span class="serial-number">{{ serialNumber }}</span>
+    <h2>{{ card.name }}</h2>
+    <span class="serial-number">{{ card.serialNumber }}</span>
     <div class="card-footer">
       <span>{{ employeeName }}</span>
-      <button>
-        <img class="edit" src="/icon/pencil.svg" alt="edit asset">
-      </button>
+      <EditModal
+        edit="asset"
+        :form="card"
+        @updated-item="updatedItem"
+      />
     </div>
   </div>
 </template>
@@ -81,21 +99,6 @@ const employeeName = await inventory.getEmployeeName(props.employee)
     justify-content: space-between;
     span {
       margin-top: auto;
-    }
-    button {
-      cursor: pointer;
-      padding: 0;
-      border: 0;
-      background-color: transparent;
-      .edit {
-        width: 20px;
-        height: 22px;
-      }
-      &:hover {
-        .edit {
-          width: 22px;
-        }
-      }
     }
   }
 }

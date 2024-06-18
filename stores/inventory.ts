@@ -47,6 +47,7 @@ const mockAssets: Array<Asset> = [
 
 // chatGpt generated mock data
 const mockEmployees: Array<Employee> = [
+    { id: "0", name: "Storage", assets: [] },
     { id: "1", name: "Alice", assets: ["1", "2", "3", "4"] },
     { id: "2", name: "Bob", assets: ["5", "6", "7"] },
     { id: "3", name: "Charlie", assets: ["8", "9", "10"] },
@@ -78,7 +79,7 @@ export const useInventoryStore = defineStore("Inventory", {
         },
         async getAsset(id: string): Promise<Asset> {
             /*if (this?.Assets?.length === 0) {
-                await getEmployees():
+                await getAssets():
             }*/
             const index = this.Assets.findIndex((asset: Asset) => asset.id === id);
             if (index !== -1) {
@@ -101,7 +102,39 @@ export const useInventoryStore = defineStore("Inventory", {
                 }
             }*/
         },
-        async updateAssets(asset: Asset) {
+        async deleteAsset(id: string) {
+            /*if (this?.Assets?.length === 0) {
+                await getAssets():
+            }*/
+            const index = this.Assets.findIndex((asset: Asset) => asset.id === id);
+            if (index !== -1) {
+                const employeeIndex = this.Employees.findIndex((employee: Employee) => employee.id === this.Assets[index].empolyee);
+                if (employeeIndex !== -1) {
+                    const employeeAssetIndex = this.Employees[employeeIndex].assets.findIndex((asset: string) => asset === id);
+                    if (employeeAssetIndex !== -1) {
+                        this.Employees[employeeIndex].assets.slice(employeeAssetIndex, 1)
+                    }
+                }
+                this.Assets.slice(index, 1);
+            }
+            /*else {
+                try {
+                    const { data } = await useFetch(
+                        `/api/assets/${id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        },
+                    );
+                    return data?.value;
+                } catch (error) {
+                    throw error;
+                }
+            }*/
+        },
+        async updateAsset(asset: Asset) {
             const index = this.Assets.findIndex((a: Asset) => a.id === asset.id);
             if (index !== -1) {
                 this.Assets[index] = asset
@@ -142,18 +175,34 @@ export const useInventoryStore = defineStore("Inventory", {
                 throw error;
             }*/
         },
-        async getEmployeeByName(name: string): Promise<Employee> {
+        async deleteEmployee(id: string) {
             /*if (this?.Employees?.length === 0) {
-                await getEmployees()
+                await getEmployees():
             }*/
-            const index = this.Employees.findIndex((e: Employee) => e.name === name);
-            return this.Employees[index];
-        },
-        async getEmployeesNames(): Promise<Array<Employee>> {
-            /*if (this?.Employees?.length === 0) {
-                await getEmployees()
+            const index = this.Employees.findIndex((employee: Employee) => employee.id === id);
+            if (index !== -1) {
+                for (let i = 0; i < this.Employees[index].assets; i++) {
+                    let asset = await this.getAsset(this.Employees[index].assets[i])
+                    await this.updateAsset({...asset, employee: "0"})
+                }
+                this.Employees.slice(index, 1);
+            }
+            /*else {
+                try {
+                    const { data } = await useFetch(
+                        `/api/employee/${id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        },
+                    );
+                    return data?.value;
+                } catch (error) {
+                    throw error;
+                }
             }*/
-            return this.Employees?.map((employee: Employee) => employee.name);
         },
         async getEmployeeName(id: string): string {
             /*if (this?.Employees?.length === 0) {
@@ -162,10 +211,10 @@ export const useInventoryStore = defineStore("Inventory", {
             const index = this.Employees.findIndex((e: Employee) => e.id === id);
             return this.Employees[index]?.name;
         },
-        async updateEmployees(employee: Employee) {
+        async updateEmployeesName(employee: Employee) {
             const index = this.Employees.findIndex((e: Employee) => e.id === employee.id);
             if (index !== -1) {
-                this.Employees[index] = employee
+                this.Employees[index] = {...this.Employees[index], name: employee.name}
             }
             /*try {
                 const result = await useFetch(

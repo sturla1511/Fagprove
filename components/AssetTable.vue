@@ -19,6 +19,10 @@ async function addEmployeeName() {
 }
 
 await addEmployeeName()
+
+async function updatedItem(event, id) {
+  assetList.value[id] = event
+}
 </script>
 
 <template>
@@ -47,12 +51,14 @@ await addEmployeeName()
           {{ item?.employeeName }}
         </td>
         <td>
-          <button>
-            <img class="edit" src="/icon/pencil.svg" alt="edit asset">
-          </button>
+          <EditModal
+            edit="asset"
+            :form="assetList[rowIndex]"
+            @updated-item="updatedItem($event, rowIndex)"
+          />
         </td>
       </tr>
-      <tr v-if="assetList.length === 0" :class="'row-odd'">
+      <tr v-if="assetList?.length === 0" :class="'row-odd'">
         <td>
           no items found
         </td>

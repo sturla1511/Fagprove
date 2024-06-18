@@ -1,22 +1,29 @@
 <script setup>
 import { ref } from "vue"
 
-let isOpen = ref(true)
+const props = defineProps({
+  isModalOpen: Boolean,
+  backdropRadius: Boolean,
+});
+
+
+const emit = defineEmits(['update:isModalOpen']);
 </script>
 
 <template>
   <div
-    v-if="isOpen"
+    v-if="isModalOpen"
     class="modal-backdrop"
-    @click.stop="isOpen = false"
+    :style="(backdropRadius ? 'border-radius: 16px;' : '')"
+    @click.stop="emit('update:isModalOpen', false)"
   />
   <div
-    v-if="isOpen"
+    v-if="isModalOpen"
     class="modal"
   >
     <div class="modal-header">
       <slot name="header" />
-      <button @click="isOpen = false">
+      <button @click="emit('update:isModalOpen', false)">
         <img src="/icon/closex.svg" alt="close">
       </button>
     </div>
@@ -31,15 +38,18 @@ let isOpen = ref(true)
 
 <style lang="scss">
   .modal-backdrop {
+    z-index: 99;
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
     left: 0;
-    background-color: transparentize($gray-700, 0.5);
+    background-color: black;
     cursor: pointer;
+    opacity: 0.5;
   }
   .modal {
+    z-index: 100;
     display: flex;
     flex-flow: column;
     position: absolute;
@@ -50,10 +60,11 @@ let isOpen = ref(true)
     margin: auto;
     background-color: $white;
     width: 500px;
-    height: 500px;
+    height: fit-content;
     max-height: 100vh;
     max-width: 100vh;
     border-radius: 16px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -78,6 +89,13 @@ let isOpen = ref(true)
           background: $gray-300;
         }
       }
+    }
+    .modal-main {
+      display: flex;
+      flex-flow: column;
+      padding: 0 18px;
+      width: 100%;
+      max-width: calc(100% - 36px);
     }
     .modal-footer {
       display: flex;

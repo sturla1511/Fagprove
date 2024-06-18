@@ -50,52 +50,6 @@ body {
     background-position: right;
     background-repeat: no-repeat;
   }
-  fieldset {
-    display: flex;
-    border: 0;
-    padding: 0;
-    label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: $gray-100;
-      border: 1px solid $gray-200;
-      box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.1);
-      padding: 0 6px;
-      cursor: pointer;
-      min-width: 28px;
-      margin-top: auto;
-      height: 27px;
-      &.radio-selected {
-        background: darken($gray-100, 2%);
-        border: 1px solid $gray-200;
-        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-        font-weight: bold;
-      }
-      &:hover {
-        background: darken($gray-100, 2%);
-        font-weight: bold;
-      }
-    }
-    label:first-of-type {
-      border-radius: 6px 0 0 6px;
-    }
-    label:last-of-type {
-      border-radius: 0 6px 6px 0;
-    }
-  }
-  label {
-    display: flex;
-    flex-flow: column;
-    select {
-      background: $gray-100;
-      border: 1px solid $gray-200;
-      box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-      border-radius: 6px;
-      padding: 4px;
-      height: 28px;
-    }
-  }
   button {
     display: flex;
     justify-content: center;
@@ -117,5 +71,97 @@ body {
       width: 18px;
       height: 18px;
     }
+  }
+}
+
+fieldset {
+  display: flex;
+  border: 0;
+  padding: 0;
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $gray-100;
+    border: 1px solid $gray-200;
+    box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 6px;
+    cursor: pointer;
+    min-width: 28px;
+    margin-top: auto;
+    height: 27px;
+    &.radio-selected {
+      background: darken($gray-100, 2%);
+      border: 1px solid $gray-200;
+      box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+      font-weight: bold;
+    }
+    &:hover {
+      background: darken($gray-100, 2%);
+      font-weight: bold;
+    }
+  }
+  label:first-of-type {
+    border-radius: 6px 0 0 6px;
+  }
+  label:last-of-type {
+    border-radius: 0 6px 6px 0;
+  }
+}
+label {
+  display: flex;
+  flex-flow: column;
+  select {
+    background: $gray-100;
+    border: 1px solid $gray-200;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 4px;
+    height: 28px;
+  }
+  input {
+    display: flex;
+    background: $gray-100;
+    border: 1px solid $gray-200;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 4px;
+    height: 18px;
+  }
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  width: 100%;
+  .form-row {
+    display: flex;
+    gap: 16px;
+    & > * {
+      width: 50%;
+    }
+  }
+  label {
+    display: flex;
+    flex-flow: column;
+  }
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  width: 100%;
+  .form-row {
+    display: flex;
+    gap: 16px;
+    & > * {
+      width: 50%;
+    }
+  }
+  label {
+    display: flex;
+    flex-flow: column;
   }
 }
