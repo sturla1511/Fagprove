@@ -3,15 +3,35 @@ import { ref } from "vue"
 import { useInventoryStore } from "~/stores/inventory.ts"
 
 const inventory = useInventoryStore()
+const route = useRoute()
 
 let employees = ref(await inventory.getEmployees())
-let filteredEmployees = ref(employees.value)
+
+let assetList = ref([])
+
+async function addAssetType() {
+  for (let e = 0; e < employees.value?.length; e++) {
+    assetList.value = []
+    for (let i = 0; i < employees.value[e]?.assets?.length; i++) {
+      let data = await inventory.getAsset(employees.value[e]?.assets[i])
+      assetList.value.push(data.type)
+    }
+    employees.value[e] = {...employees.value[e], assetsList: assetList.value}
+  }
+}
+await addAssetType()
+
+let filteredEmployees = ref(
+    employees.value.filter((item) => {
+      return (item?.assetsList?.includes(route.query.type) ||  route.query.type === undefined)
+    }).filter((item) => {
+      return (route.query.search === undefined || item?.name?.toLowerCase()?.includes(route.query.search.toLowerCase()) || item?.id?.toLowerCase()?.includes(route.query.search.toLowerCase()))
+    }).sort((a, b) => b?.assets?.length - a?.assets?.length)
+)
 
 function filterList(value) {
   filteredEmployees.value = value
 }
-
-const route = useRoute()
 </script>
 
 <template>

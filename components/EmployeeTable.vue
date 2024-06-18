@@ -62,6 +62,14 @@ await addAssets()
           </button>
         </td>
       </tr>
+      <tr v-if="employeeList.length === 0" :class="'row-odd'">
+        <td>
+           no items found
+        </td>
+        <td></td>
+        <td class="link-column"></td>
+        <td class="edit-column"></td>
+      </tr>
     </tbody>
   </table>
 </template>

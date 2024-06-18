@@ -52,6 +52,15 @@ await addEmployeeName()
           </button>
         </td>
       </tr>
+      <tr v-if="assetList.length === 0" :class="'row-odd'">
+        <td>
+          no items found
+        </td>
+        <td class="serial-number"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
 </template>

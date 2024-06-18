@@ -24,17 +24,17 @@ async function employeeName() {
 employeeName()
 
 watch(
-    () => route.query,
-    () => {
-      employeeName()
-    },
+  () => route.query,
+  () => {
+    employeeName()
+  },
 )
 </script>
 
 <template>
   <div class="container">
     <div class="heading-and-filter">
-      <h1 :key="employee+route?.query?.type">
+      <h1>
         <span v-if="employee">{{ employee }}</span>
         {{ route?.query?.type ? route?.query?.type : 'Assets' }}
       </h1>

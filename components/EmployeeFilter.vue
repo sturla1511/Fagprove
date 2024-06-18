@@ -5,7 +5,9 @@ import { useInventoryStore } from "~/stores/inventory.ts"
 
 const inventory = useInventoryStore()
 
-let list = ref(await inventory.getEmployees())
+const props = defineProps({
+  list: Array,
+});
 
 const emit = defineEmits(["filter-list"]);
 
@@ -14,14 +16,18 @@ const route = useRoute()
 
 let sortByNumberOfAssets = ref('high')
 
-let filteredList = ref(list.value)
+let filteredList = ref(props.list)
 
 function filter() {
   if (sortByNumberOfAssets.value === 'low') {
-    filteredList.value = list.value.sort((a, b) => a?.assets?.length - b?.assets?.length);
+    filteredList.value = props.list.sort((a, b) => a?.assets?.length - b?.assets?.length);
   } else {
-    filteredList.value = list.value.sort((a, b) => b?.assets?.length - a?.assets?.length);
+    filteredList.value = props.list.sort((a, b) => b?.assets?.length - a?.assets?.length);
   }
+  
+  filteredList.value = filteredList.value.filter((item) => {
+    return (route.query.search === undefined || item?.name?.toLowerCase()?.includes(route.query.search.toLowerCase()) || item?.id?.toLowerCase()?.includes(route.query.search.toLowerCase()) || item?.assetsList?.join(', ').toLowerCase().includes(route.query.search.toLowerCase()))
+  })
   
   filteredList.value = filteredList.value.filter((item) => {
     return (item?.assetsList?.includes(route.query.type) ||  route.query.type === undefined)
@@ -33,12 +39,23 @@ function filter() {
 function filterByType(event) {
   const type = event.target.value
   if (type) {
-    router.push({ query: { type } })
+    router.push({ ...route.query, query: { type } })
+  } else if (route.query.search) {
+    router.push({ query: { search: route.query.search } })
   } else {
     router.push({ query: {} })
   }
 }
-
+function search(event) {
+  const search = event.target.value
+  if (search) {
+    router.push({ query: { ...route.query, search } })
+  } else if (route.query.type) {
+    router.push({ query: { type: route.query.type } })
+  } else {
+    router.push({ query: {} })
+  }
+}
 
 function changeDateSort(event) {
   sortByNumberOfAssets.value = event?.target?.value
@@ -46,16 +63,22 @@ function changeDateSort(event) {
 }
 
 watch(
-    () => route.query,
-    () => {
-      filter()
-    },
+  () => route.query,
+  () => {
+    filter()
+  },
 )
 </script>
 
 
 <template>
   <div class="filter">
+    <input
+      @input="search" 
+      type="search" 
+      :value="route.query.search" 
+      placeholder="Search"
+    >
     <fieldset @input="changeDateSort">
       <legend>Number of assets</legend>
       <label for="high" :class="{'radio-selected': sortByNumberOfAssets === 'high'}">

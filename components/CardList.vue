@@ -5,7 +5,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <ul>
+  <ul v-if="list?.length">
     <li v-for="(item, index) in list" :key="index">
       <AssetCard
         v-if="item.type"
@@ -23,6 +23,9 @@ const props = defineProps({
       />
     </li>
   </ul>
+  <div v-else class="not-found">
+    No items found
+  </div>
 </template>
 
 <style scoped>

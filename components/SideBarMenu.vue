@@ -40,7 +40,7 @@ const route = useRoute()
     <img 
       aria-hidden="true"
       class="wave-horizontal" 
-      src="/svg/wave-horizontal.svg" 
+      src="/svg/wave-horizontal.png" 
       alt="horizontal wave"
     >
   </div>
@@ -59,6 +59,7 @@ const route = useRoute()
     background-color: $gray-700;
     color: white;
     overflow: auto;
+    z-index: 1;
     span {
       display: none;
       padding: 12px 16px;
@@ -109,9 +110,11 @@ const route = useRoute()
   }
   .wave-horizontal {
     display: flex;
-    background-color: $white;
+    height: 21px;
     width: 100%;
-    
+    translate: 0 -1px;
+    background-color: white;
+    margin-bottom: -1px;
   }
 }
 @media (min-width: $breakpoint-sm) {
