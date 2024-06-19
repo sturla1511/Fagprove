@@ -145,9 +145,10 @@ form {
   width: 100%;
   .form-row {
     display: flex;
+    flex-flow: column;
     gap: 16px;
     & > * {
-      width: 50%;
+      width: 100%;
     }
   }
   label {
@@ -156,20 +157,13 @@ form {
   }
 }
 
-form {
-  display: flex;
-  flex-flow: column;
-  gap: 16px;
-  width: 100%;
-  .form-row {
-    display: flex;
-    gap: 16px;
-    & > * {
-      width: 50%;
+@media (min-width: $breakpoint-sm) {
+  form {
+    .form-row {
+      flex-flow: row;
+      & > * {
+        width: 50%;
+      }
     }
-  }
-  label {
-    display: flex;
-    flex-flow: column;
   }
 }

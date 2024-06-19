@@ -54,7 +54,7 @@ import SideBarMenu from "~/components/SideBarMenu.vue";
     margin-right: auto;
     margin-left: auto;
     justify-content: unset;
-    max-width: calc($max-width + 64px + 200px + 200px);
+    max-width: calc($max-width + 64px + 255px + 255px);
     main {
       border-radius: 16px;
       margin: 32px;

@@ -10,20 +10,14 @@ const props = defineProps({
 });
 
 let employeeList = ref(props?.list)
-let assetList = ref([])
 
-async function addAssets() {
-  for (let e = 0; e < props.list?.length; e++) {
-    assetList.value = []
-    for (let i = 0; i < props.list[e]?.assets?.length; i++) {
-      let data = await inventory.getAsset(props.list[e]?.assets[i])
-      assetList.value.push(data.type)
-    }
-    employeeList.value[e] = {...props.list[e], assetsList: assetList.value}
-  }
+function updatedItem(event, index) {
+  employeeList.value[index] = event
 }
 
-await addAssets()
+function deletedItem(index) {
+  employeeList?.value?.splice(index, 1)
+}
 </script>
 
 <template>
@@ -32,8 +26,12 @@ await addAssets()
       <tr>
         <th>Name</th>
         <th>Assets</th>
-        <th class="link-column">link</th>
-        <th class="edit-column">Edit</th>
+        <th class="link-column">
+          link
+        </th>
+        <th class="edit-column">
+          Edit
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -60,12 +58,14 @@ await addAssets()
           <EditModal
             edit="employee"
             :form="employeeList[rowIndex]"
+            @updated-item="updatedItem($event, rowIndex)"
+            @deleted-item="deletedItem(rowIndex)"
           />
         </td>
       </tr>
-      <tr v-if="employeeList.length === 0" :class="'row-odd'">
+      <tr v-if="employeeList?.length === 0" :class="'row-odd'">
         <td>
-           no items found
+          no items found
         </td>
         <td></td>
         <td class="link-column"></td>

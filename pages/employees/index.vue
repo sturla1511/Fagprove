@@ -33,6 +33,10 @@ async function filterList(value) {
   await addAssetType()
   filteredEmployees.value = value
 }
+
+async function addItem(event) {
+  filteredEmployees?.value?.push(event)
+}
 </script>
 
 <template>
@@ -40,7 +44,7 @@ async function filterList(value) {
     <div class="heading-and-filter">
       <div class="heading-and-add">
         <h1>Employees</h1>
-        <AddModal edit="employee" />
+        <AddModal edit="employee" @added-item="addItem" />
       </div>
       <EmployeeFilter :list="employees" @filter-list="filterList" />
     </div>

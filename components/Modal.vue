@@ -39,7 +39,7 @@ const emit = defineEmits(['update:isModalOpen']);
 <style lang="scss">
   .modal-backdrop {
     z-index: 99;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
@@ -52,19 +52,20 @@ const emit = defineEmits(['update:isModalOpen']);
     z-index: 100;
     display: flex;
     flex-flow: column;
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
     margin: auto;
     background-color: $white;
-    width: 500px;
+    width: 100%;
     height: fit-content;
-    max-height: 100vh;
-    max-width: 100vh;
-    border-radius: 16px;
+    max-height: 100%;
+    max-width: 100%;
     box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
     .modal-header {
       display: flex;
       justify-content: space-between;
@@ -126,6 +127,13 @@ const emit = defineEmits(['update:isModalOpen']);
         }
         margin-left: auto;
       }
+    }
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    .modal {
+      border-radius: 16px;
+      width: 500px;
     }
   }
 </style>

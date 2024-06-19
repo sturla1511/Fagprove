@@ -16,23 +16,25 @@ let editedForm = ref(props.form)
 let errorMessage = ref('')
 
 function changeForm(event) {
-  editedForm.value = { ...editedForm.value, ...event}
+  editedForm.value = { ...editedForm.value, assets: [], ...event}
 }
-function addItem() {
+async function addItem() {
   errorMessage.value = "";
   let result = ref()
 
   if (props.edit === 'asset') {
-    result.value = inventory.addAsset(editedForm.value)
+    result.value = await inventory.addAsset(editedForm.value)
   } else if (props.edit === 'employee') {
-    result.value = inventory.addEmployee(editedForm.value)
+    result.value = await inventory.addEmployee(editedForm.value)
   }
 
   if (result?.value?.status?.value === "error") {
     errorMessage.value = "Failed to add " + props?.edit;
   } else {
+    if (props.edit === 'employee') {
+      emit('added-item', {...editedForm.value, id: result.value})
+    }
     isModalOpen.value = false
-    emit('added-item', editedForm.value)
   }
 }
 </script>

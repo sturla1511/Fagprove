@@ -253,13 +253,14 @@ export const useInventoryStore = defineStore("Inventory", {
             const index = this.Employees.findIndex((e: Employee) => e.id === id);
             return this.Employees[index]?.name;
         },
-        async addEmployee(employee: Employee) {
+        async addEmployee(employee: Employee): Promise<string> {
             const newId = (parseInt(this.Employees.sort((a: Employee, b: Employee) => parseInt(a.id) - parseInt(b.id))[this.Employees.length - 1]?.id || '0') + 1).toString();
             this.Employees.push({
                 ...employee,
                 id: newId,
                 assets: [],
             });
+            return newId
             /*try {
                 const result = await useFetch(
                     `/api/employee`,

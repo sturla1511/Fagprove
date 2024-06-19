@@ -138,7 +138,7 @@ const route = useRoute()
     justify-content: flex-start;
     flex-flow: row;
     height: 100%;
-    width: 186px;
+    width: 200px;
     border-radius: 16px;
     .menu {
       flex-flow: column;
