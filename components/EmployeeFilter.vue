@@ -70,15 +70,6 @@ watch(
     filter()
   },
 )
-
-watch(
-    () => inventory.Employees,
-    (newEmployees) => {
-      employeeList.value = newEmployees;
-      filter()
-    },
-    { deep: true }
-);
 </script>
 
 
