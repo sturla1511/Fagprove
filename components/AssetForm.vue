@@ -74,10 +74,10 @@ function updateValue(event) {
             Select employee
           </option>
           <option
-              v-for="(employee, index) in employees"
-              :key="index"
-              :value="employee?.id"
-              :selected="form?.employee === employee?.id"
+            v-for="(employee, index) in employees"
+            :key="index"
+            :value="employee?.id"
+            :selected="form?.employee === employee?.id"
           >
             {{ employee?.name }}
           </option>

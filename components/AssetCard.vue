@@ -20,8 +20,8 @@ let employeeName = ref(await inventory.getEmployeeName(props.employee))
 <template>
   <div class="card-container">
     <div class="card-header">
-      <div class="icon" :style="'background-color: ' + typeColor(type)">
-        <img :src="typeIcon(type)">
+      <div aria-label="hidden" class="icon" :style="'background-color: ' + typeColor(type)">
+        <img :src="typeIcon(type)" :alt="'type: ' + type">
       </div>
       <div class="type" :style="'background-color: ' + typeColor(type)">{{ type }}</div>
     </div>

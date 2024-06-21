@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import { useInventoryStore } from "~/stores/inventory.ts"
-import { typeIcon, typeColor } from "~/utils/types.ts";
 
 const inventory = useInventoryStore()
 
@@ -10,14 +9,6 @@ const props = defineProps({
 });
 
 let employeeList = ref(props?.list)
-
-function updatedItem(event, index) {
-  employeeList.value[index] = event
-}
-
-function deletedItem(index) {
-  employeeList?.value?.splice(index, 1)
-}
 </script>
 
 <template>
@@ -43,8 +34,8 @@ function deletedItem(index) {
           <div class="assets">
             {{ item?.assets?.length }}:
             <ul v-if="item?.assetsList?.length > 0">
-              <li v-for="(asset, index) in item?.assetsList" :key="index">
-                <img :src="typeIcon(asset)" :alt="'asset type: ' + asset">
+              <li v-for="(asset, index) in item?.assets" :key="index">
+                <TypeId :id="asset" list-type="table" />
               </li>
             </ul>
           </div>
@@ -55,12 +46,13 @@ function deletedItem(index) {
           </nuxt-link>
         </td>
         <td class="edit-column">
-          <EditModal
-            edit="employee"
-            :form="employeeList[rowIndex]"
-            @updated-item="updatedItem($event, rowIndex)"
-            @deleted-item="deletedItem(rowIndex)"
-          />
+          <div class="edit">
+            <EditModal
+              v-if="item?.id !== '0'"
+              edit="employee"
+              :form="employeeList[rowIndex]"
+            />
+          </div>
         </td>
       </tr>
       <tr v-if="employeeList?.length === 0" :class="'row-odd'">
@@ -121,27 +113,20 @@ table {
   }
   tbody {
     tr {
+      height: 29.33px;
       td {
         padding: 3px 6px;
+        vertical-align: center;
+        align-items: center;
         .assets {
           display: flex;
           gap: 4px;
           font-weight: bold;
+          align-items: center;
         }
-        button {
-          cursor: pointer;
-          padding: 0;
-          border: 0;
-          background-color: transparent;
-          .edit {
-            width: 16px;
-            height: 18px;
-          }
-          &:hover {
-            .edit {
-              width: 18px;
-            }
-          }
+        .edit {
+          display: flex;
+          align-items: center;
         }
         ul {
           display: flex;
@@ -153,9 +138,10 @@ table {
           width: fit-content;
           li {
             img {
+              margin-top: auto;
               width: 16px;
               height: 16px;
-              margin: auto;
+
             }
           }
         }

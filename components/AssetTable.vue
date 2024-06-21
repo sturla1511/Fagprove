@@ -46,11 +46,13 @@ await addEmployeeName()
         <td>
           {{ item?.employeeName }}
         </td>
-        <td>
-          <EditModal
-            edit="asset"
-            :form="assetList[rowIndex]"
-          />
+        <td class="edit-column">
+          <div class="edit">
+            <EditModal
+              edit="asset"
+              :form="assetList[rowIndex]"
+            />
+          </div>
         </td>
       </tr>
       <tr v-if="assetList?.length === 0" :class="'row-odd'">
@@ -74,6 +76,13 @@ table {
     tr {
       .serial-number {
         display: none;
+      }
+      .edit-column {
+        width: 36px;
+        .edit {
+          display: flex;
+          align-items: center;
+        }
       }
     }
   }
@@ -100,21 +109,6 @@ table {
     tr {
       td {
         padding: 3px 6px;
-        button {
-          cursor: pointer;
-          padding: 0;
-          border: 0;
-          background-color: transparent;
-          .edit {
-            width: 16px;
-            height: 18px;
-          }
-          &:hover {
-            .edit {
-              width: 18px;
-            }
-          }
-        }
       }
     }
     .row-odd {

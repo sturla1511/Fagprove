@@ -5,11 +5,7 @@ import { useInventoryStore } from "~/stores/inventory.ts"
 
 const inventory = useInventoryStore()
 
-const props = defineProps({
-  list: Array,
-});
-
-let employeeList = ref(props.list)
+let employeeList = ref(await inventory.getEmployees())
 
 const emit = defineEmits(["filter-list"]);
 
@@ -18,7 +14,21 @@ const route = useRoute()
 
 let sortByNumberOfAssets = ref('high')
 
-let filteredList = ref(props.list)
+let filteredList = ref(employeeList.value)
+
+let assetList = ref([])
+async function addAssetType() {
+  for (let e = 0; e < employeeList.value?.length; e++) {
+    assetList.value = []
+    for (let i = 0; i < employeeList.value[e]?.assets?.length; i++) {
+      let data = await inventory.getAsset(employeeList.value[e]?.assets[i])
+      assetList.value.push(data.type)
+    }
+    employeeList.value[e] = {...employeeList.value[e], assetsList: assetList.value}
+  }
+  
+}
+await addAssetType()
 
 function filter() {
   if (sortByNumberOfAssets.value === 'low') {
@@ -37,6 +47,7 @@ function filter() {
 
   emit("filter-list", filteredList.value);
 }
+filter()
 
 function filterByType(event) {
   const type = event.target.value
@@ -70,6 +81,14 @@ watch(
     filter()
   },
 )
+watch(
+    () => inventory.Employees,
+    (newEmployees) => {
+      employeeList.value = newEmployees;
+      filter()
+    },
+    { deep: true }
+);
 </script>
 
 

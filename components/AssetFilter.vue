@@ -108,7 +108,14 @@ watch(
     <label for="search" class="sr-only">
       search
     </label>
-    <input @input="search" type="search" :value="route.query.search" placeholder="Search">
+    <input 
+      @input="search" 
+      name="search" 
+      id="search" 
+      type="search" 
+      :value="route.query.search" 
+      placeholder="Search"
+    >
     <fieldset @input="changeDateSort">
       <legend>Sort by date</legend>
       <label for="old" :class="{'radio-selected': sortByDate === 'old'}">

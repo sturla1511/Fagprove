@@ -137,9 +137,11 @@ const route = useRoute()
   .menu-container {
     justify-content: flex-start;
     flex-flow: row;
-    height: 100%;
+    height: calc(100vh - 64px);
     width: 200px;
     border-radius: 16px;
+    position: fixed;
+    top: 32px;
     .menu {
       flex-flow: column;
       height: 100%;

@@ -178,6 +178,7 @@ export const useInventoryStore = defineStore("Inventory", {
             const newId = (parseInt(this.Assets.sort((a: Asset, b: Asset) => parseInt(a.id) - parseInt(b.id))[this.Assets.length - 1]?.id || '0') + 1).toString();
             this.Assets.push({
                 ...asset,
+                employee: asset?.employee ?? '0', 
                 id: newId,
                 date: new Date().toISOString().split('T')[0],
             });

@@ -1,27 +1,13 @@
 <script setup>
 import { typeIcon, typeColor } from "~/utils/types.ts";
-import { useInventoryStore } from "~/stores/inventory.ts"
 import { ref } from "vue"
-
-const inventory = useInventoryStore()
+import TypeId from "~/components/TypeId.vue";
 
 const props = defineProps({
   id: String,
   name: String,
   assets: Array
 });
-
-let assets = ref([])
-async function getAssets() {
-  assets.value = []
-  for (let i = 0; i < props?.assets?.length; i++) {
-    let data = await inventory.getAsset(props?.assets[i])
-    assets.value?.push(data)
-  }
-  return assets.value
-}
-
-await getAssets()
 </script>
 
 <template>
@@ -34,14 +20,10 @@ await getAssets()
     </div>
     <ul v-if="assets?.length > 0">
       <li v-for="(asset, index) in assets" :key="index">
-        <div class="icon" :style="'background-color: ' + typeColor(asset.type)">
-          <img :src="typeIcon(asset.type)" :alt="'asset type: ' + asset.type">
-        </div>
+        <TypeId :id="asset" />
       </li>
     </ul>
-    <div class="card-footer">
-      <span>See assets</span>
-    </div>
+    <span :style="assets?.length === 0 ? 'margin-top: 28px' : ''">See assets</span>
   </nuxt-link>
 </template>
 
@@ -65,10 +47,8 @@ await getAssets()
     h2 {
       text-decoration-line: underline;
     }
-    .card-footer {
-      span {
-        font-weight: bold;
-      }
+    span {
+      font-weight: bold;
     }
   }
   ul {
@@ -107,14 +87,10 @@ await getAssets()
       border-radius: 6px;
     }
   }
-  .card-footer {
-    display: flex;
-    margin-top: 8px;
-    justify-content: flex-end;
-    span {
-      color: black;
-      text-decoration-line: underline;
-    }
+  span {
+    align-self: flex-end;
+    color: black;
+    text-decoration-line: underline;
   }
 }
 </style>

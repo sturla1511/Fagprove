@@ -10,8 +10,6 @@ const props = defineProps({
   form: Object
 });
 
-const emit = defineEmits(['updated-item', 'deleted-item']);
-
 let isModalOpen = ref(false);
 
 let editedForm = ref(props.form) 
@@ -34,17 +32,11 @@ function saveChanges() {
   if (result?.value?.status?.value === "error") {
     errorMessage.value = "Failed to update " + props?.edit;
   } else {
-    if (props.edit === 'employee') {
-      emit('updated-item', editedForm?.value)
-    }
     isModalOpen.value = false;
   }
 }
 
 function deletedItem() {
-  if (props.edit === 'employee') {
-    emit('deleted-item')
-  }
   isModalOpen.value = false
 }
 </script>
@@ -74,7 +66,7 @@ function deletedItem() {
     </template>
   </Modal>
   <button class="open-modal" @click="isModalOpen = true">
-    <img class="edit" src="/icon/pencil.svg" alt="edit asset">
+    <img class="edit" src="/icon/pencil.svg" :alt="'edit '+form?.name">
   </button>
 </template>
 
@@ -86,6 +78,7 @@ function deletedItem() {
   background-color: transparent;
   max-height: 100%;
   .edit {
+    display: flex;
     width: 16px;
     height: 18px;
     max-height: 100%;

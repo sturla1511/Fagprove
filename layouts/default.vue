@@ -39,7 +39,7 @@ import SideBarMenu from "~/components/SideBarMenu.vue";
       padding: 0 22px 22px 22px;
       border-radius: 0 0 16px 16px;
       margin: 0 16px 16px 16px;
-      min-height: calc(100vh - 154px);
+      min-height: calc(100vh - 139px);
       width: calc(100% - 44px - 32px);
     }
     header {
@@ -54,18 +54,19 @@ import SideBarMenu from "~/components/SideBarMenu.vue";
     margin-right: auto;
     margin-left: auto;
     justify-content: unset;
-    max-width: calc($max-width + 64px + 255px + 255px);
+    max-width: calc($max-width + 64px + 232px + 232px);
     main {
       border-radius: 16px;
       margin: 32px;
-      min-height: calc(100vh - 108px);
+      min-height: calc(100vh - 86px);
     }
     header {
       margin: 32px 0 32px 32px;
       max-height: calc(100vh - 64px);
-      min-width: fit-content;
+      min-width: 200px;
       display: flex;
       justify-content: flex-end;
+      width: 200px;
     }
   }
 }

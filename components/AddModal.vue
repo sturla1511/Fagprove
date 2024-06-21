@@ -8,8 +8,6 @@ const props = defineProps({
   edit: String,
 });
 
-const emit = defineEmits(['added-item']);
-
 let isModalOpen = ref(false);
 
 let editedForm = ref(props.form)
@@ -23,7 +21,7 @@ async function addItem() {
   let result = ref()
 
   if (props.edit === 'asset') {
-    result.value = await inventory.addAsset(editedForm.value)
+    result.value = await inventory.addAsset(editedForm?.value)
   } else if (props.edit === 'employee') {
     result.value = await inventory.addEmployee(editedForm.value)
   }
@@ -31,9 +29,6 @@ async function addItem() {
   if (result?.value?.status?.value === "error") {
     errorMessage.value = "Failed to add " + props?.edit;
   } else {
-    if (props.edit === 'employee') {
-      emit('added-item', {...editedForm.value, id: result.value})
-    }
     isModalOpen.value = false
   }
 }
@@ -64,7 +59,7 @@ async function addItem() {
     </template>
   </Modal>
   <button class="open-modal" @click="isModalOpen = true">
-    <img class="add" src="/icon/add.svg" alt="edit asset">
+    <img class="add" src="/icon/add.svg" :alt="'create new ' + edit">
   </button>
 </template>
 
