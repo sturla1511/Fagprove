@@ -1,6 +1,4 @@
 <script setup>
-import { typeIcon, typeColor } from "~/utils/types.ts";
-import { ref } from "vue"
 import TypeId from "~/components/TypeId.vue";
 
 const props = defineProps({

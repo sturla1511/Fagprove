@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import TypeId from "~/components/TypeId.vue";
 import { useInventoryStore } from "~/stores/inventory.ts"
 
 const inventory = useInventoryStore()
